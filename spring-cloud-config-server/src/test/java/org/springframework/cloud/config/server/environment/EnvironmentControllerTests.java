@@ -554,6 +554,18 @@ class EnvironmentControllerTests {
 			.isInstanceOf(InvalidEnvironmentRequestException.class);
 	}
 
+	@Test
+	public void invalidProfileTests() {
+		assertThatThrownBy(() -> this.controller.labelled("application", "bar,..,foo", "label"))
+			.isInstanceOf(InvalidEnvironmentRequestException.class);
+		assertThatThrownBy(() -> this.controller.labelled("application", "..", "label"))
+			.isInstanceOf(InvalidEnvironmentRequestException.class);
+		assertThatThrownBy(() -> this.controller.labelled("application", "%2e%2e", "label"))
+			.isInstanceOf(InvalidEnvironmentRequestException.class);
+		assertThatThrownBy(() -> this.controller.labelled("application", "bar,%2e%2e,foo", "label"))
+			.isInstanceOf(InvalidEnvironmentRequestException.class);
+	}
+
 	abstract class MockMvcTestCases {
 
 		protected MockMvc mvc;
